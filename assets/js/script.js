@@ -3,7 +3,7 @@ var cityLon = "";
 var cityName = "";
 var today = moment().format("(MM/D/YYYY)");
 
-var testCoordinateCall = "http://api.openweathermap.org/geo/1.0/direct?q=london&limit=1&appid=1649c9000c0edd6212787cb652a2a6bb"
+var testCoordinateCall = "https://api.openweathermap.org/geo/1.0/direct?q=london&limit=1&appid=1649c9000c0edd6212787cb652a2a6bb"
 
 var $currentContainer = $("#current-container");
 var $fiveDayContainer = $("#five-day-container");
@@ -91,7 +91,7 @@ $("#city-form").submit(async function(event){
     $('.del').remove();
     cityName = $("#city-input").val();
     console.log(cityName)
-    var coordinateCall = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=1649c9000c0edd6212787cb652a2a6bb";
+    var coordinateCall = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=1649c9000c0edd6212787cb652a2a6bb";
     var weatherCallUrl = await getLatLon(coordinateCall);
     createCurrent(weatherCallUrl);
 })

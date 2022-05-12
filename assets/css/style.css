@@ -1,0 +1,17 @@
+.row {
+    width: 100vw;
+    display: flex;
+}
+
+.col {
+    flex: 1;
+}
+
+.big-bold {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#current-container {
+    min-height: 182px;
+}

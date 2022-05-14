@@ -1,17 +1,65 @@
-.row {
-    width: 100vw;
-    display: flex;
+html {
+    height: 100%;
+}
+body {
+    background: rgb(252,251,251);
+    background: linear-gradient(to bottom, rgba(252,251,251,1) 17%, rgba(242,242,242,1) 46%, rgba(0,18,73,1) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
+    margin: 0;
 }
 
-.col {
-    flex: 1;
+header {
+    background: rgb(0,212,255);
+    background: linear-gradient(22deg, rgba(0,212,255,1) 0%, rgba(9,9,121,1) 41%, rgba(2,0,36,1) 87%);
+}
+
+.container {
+    max-width: 100vw;
+}
+
+.fill {
+    width: 100%;
+}
+
+.split {
+    width: 100%;
+}
+
+#five-day-container {
+    padding: 0 15px 8px 15px;  
+    justify-content: space-between;
+}
+
+#current-container {
+    min-height: 182px;
+    padding: 8px;
+}
+
+.day {
+    min-height: 170px;
+    line-height: 2;
+    /* margin: 0 8px; */
 }
 
 .big-bold {
     font-size: x-large;
     font-weight: bold;
+    text-shadow: 0 0 3px white;
 }
 
-#current-container {
-    min-height: 182px;
+@media only screen and (max-width: 767px){
+    .split {
+        width: fit-content;
+        border: 1px solid black;
+        font-size: 2.5vw;
+        margin: 1px;
+    }
+
+    #searched-cities {
+        /* display: flex; */
+        text-align: center;
+        flex-wrap: wrap;
+    }
 }

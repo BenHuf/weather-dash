@@ -9,29 +9,32 @@
     <link rel="stylesheet" href="./assets/css/style.css"/>
 </head>
 <body>
-    <header class="text-center bg-primary">
+    <header class="text-center border border-dark text-light">
         <h1>Weather Dashboard</h1>
     </header>
     
-    <main class="container mx-0">
+    <main class="container">
         <div class="row">
-            <sidebar class="col-4">
-                <form id="city-form" class="city-form border-bottom border-dark pb-3 justify-content-center">
-                    <label for="city" class="city-form w-100 big-bold"> Search for a city:</label>
-                    <input type="text" id="city-input" class="city-form w-100 mb-3" name="city">
-                    <button class="btn btn-dark city-form w-100" id="search-btn" type="submit">Submit</button>
+            <sidebar class="col-sm-12 col-md-3">
+                <form id="city-form" class="city-form border-bottom border-dark pb-3 justify-content-center fill">
+                    <label for="city" class="city-form big-bold"> Search for a city:</label>
+                    <input type="text" id="city-input" class="city-form fill mb-3" name="city">
+                    <button class="btn btn-primary city-form fill" id="search-btn" type="submit">Search</button>
                 </form>
-                    <div class="city-form" id="searched-cities">
-                        <!-- for cities to be appened after search -->
-                    </div>
+                <div id="searched-cities" class="pt-3">
+                    <!-- for cities to be appened after search -->
+                </div>
             </sidebar>
-            <div class="col">
-                <div id="current-container" class="border border-dark bg-light p-2">   
+            <div class="col-sm-12 col-md-9">
+                <div id="current-container" class="border border-dark bg-white mt-2">   
                     <!-- Current Weather -->
                 </div>
-                <div id="five-day-container">
-                    <!-- 5day forecast -->
-                </div>
+                <div class="big-bold my-2">5 Day Forecast: </div>
+                <!-- <div class="container px-0"> -->
+                    <div id="five-day-container" class="row">
+                        <!-- 5day forecast -->
+                    </div>
+                <!-- </div> -->
             </div>
         </div>
     </main>

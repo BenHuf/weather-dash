@@ -3,12 +3,12 @@ var cityLon = "";
 var cityName = "";
 
 var testCoordinateCall = "https://api.openweathermap.org/geo/1.0/direct?q=london&limit=1&appid=1649c9000c0edd6212787cb652a2a6bb"
-
+var testCall = "https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=1649c9000c0edd6212787cb652a2a6bb"
 var $currentContainer = $("#current-container");
 var $fiveDayContainer = $("#five-day-container");
 var $searchedCitiesContainer = $("#searched-cities");
 
-var testUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=33.44&lon=-94.04&exclude=hourly&appid=1649c9000c0edd6212787cb652a2a6bb"
+var testUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=35&lon=139&exclude=hourly&appid=1649c9000c0edd6212787cb652a2a6bb"
 
 var kelToFar = function(kelvin) {
     var farenheit = Math.round((kelvin-273.15)*(9/5)+32)
@@ -30,7 +30,7 @@ var getLatLon = async function(url) {
     cityLat = gotLatLon[0].lat;
     cityLon = gotLatLon[0].lon;
     var weatherCall = "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly,alerts&appid=1649c9000c0edd6212787cb652a2a6bb";
-
+    console.log(weatherCall)
     return weatherCall;
 }
 
@@ -64,11 +64,10 @@ var createCurrent = async function(url) {
     // }
     // var cityText = capitalizeWords(cityWords)
     var cityClass = cityText.replace(/ /g,"-")
-    console.log(cityClass);
 
-    var unixDate = currentWeather.current.dt
-    var date = new Date(unixDate * 1000);
-    var dateText = ('(' + date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear() + ')')
+    var unixTime = currentWeather.current.dt
+    var date = new Date(unixTime * 1000)
+    var dateText = date.toLocaleDateString("en-US")
     var icon = currentWeather.current.weather[0].icon + ".png";
     var altText = currentWeather.current.weather[0].description;
     var tempKelvin = currentWeather.current.temp;
@@ -112,19 +111,17 @@ var createCurrent = async function(url) {
         .appendTo($currentContainer)
     
     // 5-day forecast
-    for (i = 0; i < 5; i++) {
+    for (i = 1; i < 6; i++) {
         // daily container
         var $dailyContainer = $('<div>').attr('id', [i]).addClass("day del col border border-black text-light bg-dark").appendTo($fiveDayContainer)
         
-        var unixDate = currentWeather.daily[i].dt
-        var date = new Date(unixDate * 1000);
-        var dateText = (date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear())
+        var unixTime = currentWeather.daily[i].dt
+        var date = new Date(unixTime * 1000);
+        var dateText = (date.toLocaleDateString("en-US"))
         var icon = currentWeather.daily[i].weather[0].icon + ".png"
         var altText = currentWeather.daily[i].weather.description;
         var tempKelvin = currentWeather.daily[i].temp.max
-        console.log(temp.kelvin)
         var temp = kelToFar(tempKelvin)
-        console.log(temp)
         var wind = currentWeather.daily[i].wind_speed
         var humidity = currentWeather.daily[i].humidity
 
@@ -174,9 +171,7 @@ $("#city-form").submit(async function(event){
 })
 
 $(document).on('click', '#city-button', async function() {
-    console.log('button clicked')
     cityName = $(this).text()
-    console.log(cityName)
     $('.del').remove();
     var coordinateCall = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=1649c9000c0edd6212787cb652a2a6bb";
     var weatherCallUrl = await getLatLon(coordinateCall);

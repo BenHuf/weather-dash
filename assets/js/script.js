@@ -1,20 +1,23 @@
+// initialized variables
 var cityLat = "";
 var cityLon = "";
 var cityName = "";
-
 var testCoordinateCall = "https://api.openweathermap.org/geo/1.0/direct?q=london&limit=1&appid=1649c9000c0edd6212787cb652a2a6bb"
 var testCall = "https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=1649c9000c0edd6212787cb652a2a6bb"
+var testUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=35&lon=139&exclude=hourly&appid=1649c9000c0edd6212787cb652a2a6bb"
+
+//jquery variables
 var $currentContainer = $("#current-container");
 var $fiveDayContainer = $("#five-day-container");
 var $searchedCitiesContainer = $("#searched-cities");
 
-var testUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=35&lon=139&exclude=hourly&appid=1649c9000c0edd6212787cb652a2a6bb"
-
+// function to convert kelvin to farenheit
 var kelToFar = function(kelvin) {
     var farenheit = Math.round((kelvin-273.15)*(9/5)+32)
     return farenheit;
 }
 
+// fectches geocode for a city and returns json from api with Lat and Lon
 var getGeocode = async function(url) {
     try {
         var gotGeocode = await fetch(url);
@@ -25,6 +28,7 @@ var getGeocode = async function(url) {
     
 }
 
+// takes geocode json and parses latitude and longitude. Concatenates the url to call the 5 day forecast
 var getLatLon = async function(url) {
     var gotLatLon = await getGeocode(url)
     cityLat = gotLatLon[0].lat;
@@ -34,11 +38,13 @@ var getLatLon = async function(url) {
     return weatherCall;
 }
 
+// fectches weather json
 var getWeather = async function(url) {
     var gotWeather = await fetch(url);
     return await gotWeather.json();
 }
 
+// creates all dynamic elements -- current weather/5day forecast/searched cities buttons
 var createCurrent = async function(url) {
     var currentWeather = await getWeather(url);
 
@@ -53,9 +59,9 @@ var createCurrent = async function(url) {
         return words.join(" ");
     }
     
+    // local variables for current weather
     var cityText = parseCityName(cityName)
     var cityClass = cityText.replace(/ /g,"-")
-
     var unixTime = currentWeather.current.dt
     var date = new Date(unixTime * 1000)
     var dateText = date.toLocaleDateString("en-US")
@@ -68,7 +74,7 @@ var createCurrent = async function(url) {
     var uvIndex = currentWeather.current.uvi;
 
 
-
+    // create and append a div to hold city/date/and icon to keep on one row
     var $cityDateIcon = $('<div>').addClass("del d-flex").appendTo($currentContainer);
 
 
@@ -105,6 +111,8 @@ var createCurrent = async function(url) {
         .text(" " + uvIndex + " ")
         .addClass('del')
         .appendTo($('#UV'))
+
+    // add color border for different UV levels
     if (uvIndex <= 2) {
         $('span').addClass('low')
     }
@@ -114,11 +122,13 @@ var createCurrent = async function(url) {
     else {
         $('span').addClass('severe')
     }
-    // 5-day forecast
+
+    // loop to create 5-day forecast elements
     for (i = 1; i < 6; i++) {
-        // daily container
+        // creates container for each day in the 5 day forecast
         var $dailyContainer = $('<div>').attr('id', [i]).addClass("day del col border border-black text-light bg-dark").appendTo($fiveDayContainer)
         
+        // local variables for 5day forecast
         var unixTime = currentWeather.daily[i].dt
         var date = new Date(unixTime * 1000);
         var dateText = (date.toLocaleDateString("en-US"))
@@ -165,6 +175,7 @@ var createCurrent = async function(url) {
     }    
 }
 
+// clears containers and calls all functions to create dynamic weather elements
 $("#city-form").submit(async function(event){
     event.preventDefault();
     $('.del').remove();
@@ -174,6 +185,7 @@ $("#city-form").submit(async function(event){
     createCurrent(weatherCallUrl);
 })
 
+// creates elements on click of a button of a previously searched city
 $(document).on('click', '#city-button', async function() {
     cityName = $(this).text()
     $('.del').remove();

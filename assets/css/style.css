@@ -1,6 +1,7 @@
 html {
     height: 100%;
 }
+
 body {
     background: rgb(252,251,251);
     background: linear-gradient(to bottom, rgba(252,251,251,1) 17%, rgba(242,242,242,1) 46%, rgba(0,18,73,1) 100%);
@@ -47,6 +48,23 @@ header {
     font-size: x-large;
     font-weight: bold;
     text-shadow: 0 0 3px white;
+}
+
+span {
+    border-radius: 10px;
+    padding: 0 10px;
+}
+
+.low {
+    background-color: greenyellow;
+}
+
+.moderate {
+    background-color: yellow;
+}
+
+.severe {
+    background-color: red;
 }
 
 @media only screen and (max-width: 767px){

@@ -52,17 +52,8 @@ var createCurrent = async function(url) {
 
         return words.join(" ");
     }
-    var cityText = parseCityName(cityName)
     
-    // var cityWords = cityName.split(" ");
-    // var capitalizeWords = function(words) {
-    //     for (var i = 0; i < words.length; i++) {
-    //         words[i] = words[i][0].toUpperCase() + words[i].slice(1);
-    //     }
-        
-    //     return words.join(" ");
-    // }
-    // var cityText = capitalizeWords(cityWords)
+    var cityText = parseCityName(cityName)
     var cityClass = cityText.replace(/ /g,"-")
 
     var unixTime = currentWeather.current.dt
@@ -91,7 +82,7 @@ var createCurrent = async function(url) {
         .appendTo($cityDateIcon)
     // temp
     $('<div>')
-        .text("Temp: " + temp + "\u00B0 K")
+        .text("Temp: " + temp + "\u00B0 F")
         .addClass('del my-2')
         .appendTo($currentContainer)
     // wind
@@ -106,10 +97,23 @@ var createCurrent = async function(url) {
         .appendTo($currentContainer)
     // UV index
     $('<div>')
-        .text("UV Index: " + uvIndex)
+        .text("UV Index: ")
+        .attr('id', 'UV')
         .addClass('del')
         .appendTo($currentContainer)
-    
+    $('<span>')
+        .text(" " + uvIndex + " ")
+        .addClass('del')
+        .appendTo($('#UV'))
+    if (uvIndex <= 2) {
+        $('span').addClass('low')
+    }
+    else if (uvIndex <= 5) {
+        $('span').addClass('moderate')
+    }
+    else {
+        $('span').addClass('severe')
+    }
     // 5-day forecast
     for (i = 1; i < 6; i++) {
         // daily container
@@ -136,17 +140,17 @@ var createCurrent = async function(url) {
             .appendTo($dailyContainer)
         // temp
         $('<div>') 
-            .text('Temp: ' + temp)
+            .text('Temp: ' + temp + "\u00B0 F")
             .addClass('del')
             .appendTo($dailyContainer)
         // wind
         $('<div>') 
-            .text('Wind: ' + wind)
+            .text('Wind: ' + wind + " MPH")
             .addClass('del')
             .appendTo($dailyContainer)
         // humidity
         $('<div>') 
-            .text('Humidity: ' + humidity)
+            .text('Humidity: ' + humidity + " %")
             .addClass('del')
             .appendTo($dailyContainer)
     }
